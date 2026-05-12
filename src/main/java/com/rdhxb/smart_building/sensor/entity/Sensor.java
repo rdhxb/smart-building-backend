@@ -23,12 +23,11 @@ public class Sensor extends AuditingEntity {
     @Enumerated(EnumType.STRING)
     private SensorType sensorType;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
     private Room room;
 
-    @Setter
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "device_id")
     private Device device;
 

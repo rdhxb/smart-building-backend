@@ -2,6 +2,7 @@ package com.rdhxb.smart_building.device.entity;
 
 import com.rdhxb.smart_building.common.AuditingEntity;
 import com.rdhxb.smart_building.room.entity.Room;
+import com.rdhxb.smart_building.sensor.entity.Sensor;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,6 +10,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -32,5 +35,7 @@ public class Device extends AuditingEntity {
     private Room room;
 
     private String properties;
+
+
 
 }

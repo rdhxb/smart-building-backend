@@ -22,8 +22,8 @@ public class SensorReading extends AuditingEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "sensor_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sensor_id", nullable = true)
     private Sensor sensor;
 
     private Double value;

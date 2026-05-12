@@ -45,6 +45,7 @@ public class SensorController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @Transactional
+    
     public void deleteSensor(@PathVariable Long id){
         sensorService.deleteSensor(id);
     }

@@ -8,6 +8,7 @@ import com.rdhxb.smart_building.sensor.entity.SensorReading;
 import com.rdhxb.smart_building.sensor.repo.SensorReadingRepo;
 import com.rdhxb.smart_building.sensor.repo.SensorRepo;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -50,14 +51,17 @@ public class SensorService {
         sensorRepo.save(newSensor);
     }
 
+    @Transactional
     public void deleteSensor(long id){
-        Sensor sensor = getSensor(id);
-        sensorRepo.delete(sensor);
+        sensorReadingRepo.detachFromSensor(id);
+        sensorRepo.deleteById(id);
     }
 
+
     public List<SensorReading> getSensorReading(Long id){
-        SensorReading sensor =  sensorReadingRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("No sensor with id: " + id));
-        return sensorReadingRepo.findAllBySensor(sensor);
+        Sensor s = sensorRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("No sensor id" + id));
+        List<SensorReading> lsr = sensorReadingRepo.findAllBySensor(s);
+        return lsr;
     }
 
     public void changeStatus(Long id){
