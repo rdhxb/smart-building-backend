@@ -6,7 +6,7 @@ import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+
 
 @Data
 @AllArgsConstructor
@@ -15,6 +15,7 @@ public class SensorRequest {
     private String name;
     @Enumerated
     private SensorType type;
-    private Room room;
+    private Long roomId;
+    private String deviceName;
     private String unit;
 }

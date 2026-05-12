@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface SensorRepo extends JpaRepository<Sensor,Long> {
     List<Sensor> findAllByRoom_Id(Long roomId);
-
+    List<Sensor> findAllByEnabledTrue();
 }

@@ -1,6 +1,7 @@
 package com.rdhxb.smart_building.simulator;
 
 import com.rdhxb.smart_building.sensor.entity.Sensor;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import static java.lang.Math.clamp;
 import static java.lang.Math.round;
 
-
+@Component
 public class ReadingGenerator {
     private final Map<Long, Double> lastValues = new HashMap<>();
 
