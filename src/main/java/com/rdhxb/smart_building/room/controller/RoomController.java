@@ -46,4 +46,10 @@ public class RoomController {
     public void deleteRoom(@PathVariable long id){
         roomService.deleteRoom(id);
     }
+
+
+    @GetMapping("/devices")
+    public List<Room> getRoomsWithDevice(){
+        return roomService.getRoomsWithDevice();
+    }
 }

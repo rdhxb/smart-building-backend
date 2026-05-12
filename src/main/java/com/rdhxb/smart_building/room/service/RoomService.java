@@ -1,24 +1,28 @@
 package com.rdhxb.smart_building.room.service;
 
+import com.rdhxb.smart_building.device.entity.Device;
+import com.rdhxb.smart_building.device.repo.DeviceRepo;
 import com.rdhxb.smart_building.room.DTO.RoomRequest;
 import com.rdhxb.smart_building.room.DTO.RoomResponse;
 import com.rdhxb.smart_building.room.entity.Room;
 import com.rdhxb.smart_building.room.repo.RoomRepo;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 @Service
+@RequiredArgsConstructor
 public class RoomService {
 
     private final RoomRepo roomRepo;
+    private final DeviceRepo deviceRepo;
 
-    public RoomService(RoomRepo roomRepo) {
-        this.roomRepo = roomRepo;
-    }
+
 
 //    get all rooms
     public List<RoomResponse> getRooms(){
@@ -56,6 +60,15 @@ public class RoomService {
     public void deleteRoom(long id){
         Room room = roomRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("No room with id: " + id));
         roomRepo.delete(room);
+    }
+
+    public List<Room> getRoomsWithDevice(){
+        List<Device> devices = deviceRepo.findAll();
+        List<Room> rooms = new ArrayList<>();
+        for (Device d: devices){
+            rooms.add(d.getRoom());
+        }
+        return rooms;
     }
 
 
