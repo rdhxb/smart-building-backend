@@ -4,7 +4,9 @@ import com.rdhxb.smart_building.device.DTO.DeviceRequest;
 import com.rdhxb.smart_building.device.entity.Device;
 import com.rdhxb.smart_building.device.entity.DeviceStatus;
 import com.rdhxb.smart_building.device.service.DeviceService;
+import com.rdhxb.smart_building.device.service.DeviceStateService;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,14 +14,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/devices")
+@RequiredArgsConstructor
 public class DeviceController {
 
     private final DeviceService deviceService;
+    private final DeviceStateService deviceStateService;
 
 
-    public DeviceController(DeviceService deviceService) {
-        this.deviceService = deviceService;
-    }
 
 
     @GetMapping
@@ -55,7 +56,7 @@ public class DeviceController {
     @PatchMapping("/{id}")
     @Transactional
     public void changeStatus(@PathVariable long id, @RequestParam DeviceStatus deviceStatus){
-        deviceService.changeStatus(deviceStatus,id);
+        deviceStateService.changeState(id,deviceStatus,"Test");
     }
 
 

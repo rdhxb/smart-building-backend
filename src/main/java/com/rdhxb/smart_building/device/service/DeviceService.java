@@ -51,10 +51,10 @@ public class DeviceService {
         deviceRepo.delete(deviceRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("No device with id: " + id)));
     }
 
-    public void changeStatus(DeviceStatus deviceStatus, long id){
-        Device d = getDeviceById(id);
-        d.setDeviceStatus(deviceStatus);
-        deviceRepo.save(d);
-    }
+//    public void changeStatus(DeviceStatus deviceStatus, long id){
+//        Device d = getDeviceById(id);
+//        d.setDeviceStatus(deviceStatus);
+//        deviceRepo.save(d);
+//    }
 
 }

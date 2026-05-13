@@ -42,7 +42,6 @@ public class RoomController {
     @DeleteMapping("{id}")
     @PreAuthorize("hasAnyRole('ADMIN')")
     @Transactional
-
     public void deleteRoom(@PathVariable long id){
         roomService.deleteRoom(id);
     }

@@ -2,6 +2,7 @@ package com.rdhxb.smart_building.sensor.controller;
 
 import com.rdhxb.smart_building.sensor.DTO.SensorRequest;
 import com.rdhxb.smart_building.sensor.entity.Sensor;
+import com.rdhxb.smart_building.sensor.entity.SensorReading;
 import com.rdhxb.smart_building.sensor.repo.SensorRepo;
 import com.rdhxb.smart_building.sensor.service.SensorService;
 import jakarta.persistence.EntityNotFoundException;
@@ -51,8 +52,8 @@ public class SensorController {
     }
 
     @GetMapping("/readings/{id}")
-    public void getSensorReading(@PathVariable Long id){
-        sensorService.getSensorReading(id);
+    public List<SensorReading> getSensorReading(@PathVariable Long id){
+        return sensorService.getSensorReading(id);
     }
 
     @PatchMapping("/{id}")
