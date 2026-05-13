@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface ScheduleRepo extends JpaRepository<Schedule,Long> {
     List<Schedule> findAllByEnabledTrue();
+
+    List<Schedule> findAllByTargetId(Long id);
 }
