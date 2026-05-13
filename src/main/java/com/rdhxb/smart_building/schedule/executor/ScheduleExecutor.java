@@ -52,12 +52,13 @@ public class ScheduleExecutor {
                 execute(schedule);
             }
         }
+
     }
 
     private boolean shouldRunNow(Schedule schedule, LocalDateTime now) {
-        CronExpression cron = CronExpression.parse(schedule.getCronExpression());
-        LocalDateTime next = cron.next(now.minusMinutes(1).withSecond(0));
-        return next != null && next.withSecond(0).isEqual(now.withSecond(0));
+        LocalDateTime tickStart = now.withSecond(0).withNano(0);
+        LocalDateTime next = schedule.getParsedCron().next(tickStart.minusNanos(1));
+        return next != null && next.equals(tickStart);
     }
 
 }

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/schedles")
+@RequestMapping("/api/schedules")
 @RequiredArgsConstructor
 public class ScheduleController {
 
@@ -19,7 +19,7 @@ public class ScheduleController {
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'BUILDING_MANAGER')")
     public List<Schedule> getSchedules(){
-        return service.getScheduls();
+        return service.getSchedules();
     }
     @GetMapping("/room/{roomId}")
     @PreAuthorize("hasAnyRole('ADMIN', 'BUILDING_MANAGER')")

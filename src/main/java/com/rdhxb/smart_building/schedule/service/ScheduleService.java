@@ -14,7 +14,7 @@ public class ScheduleService {
 
     private final ScheduleRepo scheduleRepo;
 
-    public List<Schedule> getScheduls(){
+    public List<Schedule> getSchedules(){
         return scheduleRepo.findAll();
     }
 
@@ -33,7 +33,7 @@ public class ScheduleService {
 
     public void turnOnOff(Long id){
         Schedule schedule = getScheduleById(id);
-        schedule.setEnabled(schedule.isEnabled() ? fsalse: true);
+        schedule.setEnabled(schedule.isEnabled() ? false: true);
         scheduleRepo.save(schedule);
     }
 

@@ -8,6 +8,10 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.scheduling.support.CronExpression;
+
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "schedules")
@@ -24,15 +28,24 @@ public class Schedule extends AuditingEntity {
     private String cronExpression;
 
     private @Enumerated DeviceStatus targetStatus;
-    private @Enumerated TargetType targetType;      // BY_TYPE, BY_ROOM, ALL
+    private @Enumerated TargetType targetType;
 
     private DeviceType deviceType;
 
-    private Long targetId;                     // "LIGHT" albo "3" albo null
+    private Long targetId;
 
     boolean enabled;
 
+    @Transient
+    private CronExpression parsedCron;
+
+    @PostLoad
+    @PostPersist
+    @PostUpdate
+    private void parseCron() {
+        if (cronExpression != null) {
+            this.parsedCron = CronExpression.parse(cronExpression);
+        }
+    }
 
 }
-
-//chce teraz zrobic schedule ale struktura w modelu danych wydaje mi sie chujowa bo przeciez chcemy zrobic cos w style (codziennie o 19 zgas wsszystkie switla ) a przyjmujermy tylko Device zamiast List<Device> to ja mam ustwiac harmonogrm dla kazdego uzadzenia ?? xD
