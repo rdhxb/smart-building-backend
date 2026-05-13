@@ -23,9 +23,9 @@ public class ReadingGenerator {
     }
 
     private GeneratedReading generateTemperature(Sensor sensor){
-        double prev = lastValues.getOrDefault(sensor.getId(),13.0);
+        double prev = lastValues.getOrDefault(sensor.getId(),22.0);
         double delta = ThreadLocalRandom.current().nextDouble(-0.5,0.5);
-        double next = clamp(prev + delta, 12.0, 26.0);
+        double next = clamp(prev + delta, 18.0, 26.0);
         lastValues.put(sensor.getId(), next);
         return new GeneratedReading(round(next), null);
     }

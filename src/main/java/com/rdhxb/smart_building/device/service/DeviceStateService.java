@@ -6,8 +6,8 @@ import com.rdhxb.smart_building.device.repo.DeviceRepo;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -15,9 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class DeviceStateService {
     private final DeviceRepo deviceRepo;
-    private final ApplicationEventPublisher eventPublisher;
 
-    @Transactional
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void changeState(Long deviceId, DeviceStatus newStatus, String reason) {
         Device device = deviceRepo.findById(deviceId)
                 .orElseThrow(() -> new EntityNotFoundException("No device with id: " + deviceId));
@@ -32,7 +32,6 @@ public class DeviceStateService {
 
         log.info("Device {} state changed: {} -> {} (reason: {})",
                 deviceId, oldStatus, newStatus, reason);
-
 
     }
 }

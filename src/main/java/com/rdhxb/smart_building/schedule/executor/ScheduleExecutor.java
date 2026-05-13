@@ -1,0 +1,63 @@
+package com.rdhxb.smart_building.schedule.executor;
+
+import com.rdhxb.smart_building.device.entity.Device;
+import com.rdhxb.smart_building.device.repo.DeviceRepo;
+import com.rdhxb.smart_building.schedule.entity.Schedule;
+import com.rdhxb.smart_building.schedule.repo.ScheduleRepo;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.scheduling.support.CronExpression;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@RequiredArgsConstructor
+@Component
+@Slf4j
+public class ScheduleExecutor {
+    private final DeviceRepo deviceRepo;
+    private final ScheduleRepo scheduleRepo;
+
+    @Transactional
+    public void execute(Schedule schedule){
+
+        List<Device> devicesList = switch (schedule.getTargetType()){
+            case BY_DEVICE_TYPE -> deviceRepo.findAllByDeviceType(schedule.getDeviceType());
+            case BY_ROOM -> deviceRepo.findByRoom_Id(schedule.getTargetId());
+            case ALL -> deviceRepo.findAll();
+        };
+
+        if (schedule.isEnabled()){
+            for (Device device: devicesList){
+                device.setDeviceStatus(schedule.getTargetStatus());
+            }
+            deviceRepo.saveAll(devicesList);
+        }
+        log.info("Executing schedule '{}' on {} devices", schedule.getName(), devicesList.size());
+
+    }
+
+    @Scheduled(cron = "0 * * * * *")
+    public void tick() {
+        LocalDateTime now = LocalDateTime.now();
+
+        List<Schedule> schedules = scheduleRepo.findAllByEnabledTrue();
+        for (Schedule schedule : schedules) {
+            if (shouldRunNow(schedule, now)) {
+                execute(schedule);
+            }
+        }
+    }
+
+    private boolean shouldRunNow(Schedule schedule, LocalDateTime now) {
+        CronExpression cron = CronExpression.parse(schedule.getCronExpression());
+        LocalDateTime next = cron.next(now.minusMinutes(1).withSecond(0));
+        return next != null && next.withSecond(0).isEqual(now.withSecond(0));
+    }
+
+}

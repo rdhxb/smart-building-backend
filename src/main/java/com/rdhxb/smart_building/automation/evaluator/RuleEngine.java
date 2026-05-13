@@ -5,13 +5,12 @@ import com.rdhxb.smart_building.automation.repo.AutomationRuleRepository;
 import com.rdhxb.smart_building.device.service.DeviceStateService;
 import com.rdhxb.smart_building.event.SensorReadingCreatedEvent;
 import com.rdhxb.smart_building.sensor.entity.SensorReading;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
-
+import org.springframework.transaction.annotation.Transactional;  // ✅ dobre
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
