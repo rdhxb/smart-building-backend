@@ -1,5 +1,8 @@
 package com.rdhxb.smart_building.auth;
 
+import com.rdhxb.smart_building.eventlog.entity.EventLog;
+import com.rdhxb.smart_building.eventlog.entity.EventType;
+import com.rdhxb.smart_building.eventlog.service.EventLogService;
 import com.rdhxb.smart_building.security.JwtUtil;
 import com.rdhxb.smart_building.user.DTO.LogInRequest;
 import com.rdhxb.smart_building.user.DTO.RegisterRequest;
@@ -7,6 +10,7 @@ import com.rdhxb.smart_building.user.entity.Role;
 import com.rdhxb.smart_building.user.entity.User;
 import com.rdhxb.smart_building.user.repo.UserRepo;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,11 +26,14 @@ public class AuthController {
     private PasswordEncoder encoder;
     private JwtUtil jwtUtils;
 
-    public AuthController(AuthenticationManager authenticationManager, UserRepo userRepository, PasswordEncoder encoder, JwtUtil jwtUtils) {
+    private final EventLogService logService;
+
+    public AuthController(AuthenticationManager authenticationManager, UserRepo userRepository, PasswordEncoder encoder, JwtUtil jwtUtils, EventLogService logService) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.encoder = encoder;
         this.jwtUtils = jwtUtils;
+        this.logService = logService;
     }
 
     @PostMapping("/signin")
@@ -36,9 +43,12 @@ public class AuthController {
                         user.getUsername(),
                         user.getPassword()
                 )
+
         );
 
+
         final UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        logService.logUserAction(EventType.USER_LOGIN,"user",userRepository.findUserByUsername(userDetails.getUsername()).getId(),"{" + userDetails.getUsername() + "} : Logged in !" ,userRepository.findUserByUsername(userDetails.getUsername()).getId());
         return jwtUtils.generateToken(userDetails.getUsername());
     }
 
@@ -55,6 +65,7 @@ public class AuthController {
                 Role.RESIDENT
         );
         userRepository.save(newUser);
+        logService.logUserAction(EventType.CREATED,"user",userRepository.findUserByUsername(newUser.getUsername()).getId(),"New User : " + newUser.getUsername() + " Created !", userRepository.findUserByUsername(newUser.getUsername()).getId());
         return "User registered successfully!";
     }
 }

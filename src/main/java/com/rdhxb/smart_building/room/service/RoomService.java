@@ -2,6 +2,10 @@ package com.rdhxb.smart_building.room.service;
 
 import com.rdhxb.smart_building.device.entity.Device;
 import com.rdhxb.smart_building.device.repo.DeviceRepo;
+import com.rdhxb.smart_building.eventlog.entity.EventType;
+import com.rdhxb.smart_building.eventlog.entity.LogType;
+import com.rdhxb.smart_building.eventlog.entity.Source;
+import com.rdhxb.smart_building.eventlog.service.EventLogService;
 import com.rdhxb.smart_building.room.DTO.RoomRequest;
 import com.rdhxb.smart_building.room.DTO.RoomResponse;
 import com.rdhxb.smart_building.room.entity.Room;
@@ -21,6 +25,7 @@ public class RoomService {
 
     private final RoomRepo roomRepo;
     private final DeviceRepo deviceRepo;
+    private final EventLogService logService;
 
 
 
@@ -54,11 +59,13 @@ public class RoomService {
                 room.getAreaInSquareM()
         );
         roomRepo.save(newRoom);
+        logService.log(EventType.CREATED,Source.USER,"ROOM", newRoom.getId(), null,newRoom.toString(),"New room ADDED !", LogType.INFO,1L);
     }
     
 //    delete room 
     public void deleteRoom(long id){
         Room room = roomRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("No room with id: " + id));
+        logService.log(EventType.DELETED, Source.USER,"Room",id,room.toString(),null,"Deleting room", LogType.INFO,1L);
         roomRepo.delete(room);
     }
 

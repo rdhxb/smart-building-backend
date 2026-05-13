@@ -1,6 +1,10 @@
 package com.rdhxb.smart_building.sensor.service;
 
 import com.rdhxb.smart_building.device.repo.DeviceRepo;
+import com.rdhxb.smart_building.eventlog.entity.EventType;
+import com.rdhxb.smart_building.eventlog.entity.LogType;
+import com.rdhxb.smart_building.eventlog.entity.Source;
+import com.rdhxb.smart_building.eventlog.service.EventLogService;
 import com.rdhxb.smart_building.room.repo.RoomRepo;
 import com.rdhxb.smart_building.sensor.DTO.SensorRequest;
 import com.rdhxb.smart_building.sensor.entity.Sensor;
@@ -22,6 +26,7 @@ public class SensorService {
     private final SensorReadingRepo sensorReadingRepo;
     private final RoomRepo roomRepo;
     private final DeviceRepo deviceRepo;
+    private final EventLogService logService;
 
 
 
@@ -49,12 +54,14 @@ public class SensorService {
                 false
         );
         sensorRepo.save(newSensor);
+        logService.log(EventType.CREATED,Source.USER,"SENSOR", newSensor.getId(),null,newSensor.toString(),"NEW SENSOR HAS BEEN ADDED !",LogType.INFO,1L);
     }
 
     @Transactional
     public void deleteSensor(long id){
         sensorReadingRepo.detachFromSensor(id);
         sensorRepo.deleteById(id);
+        logService.log(EventType.DELETED,Source.USER,"SEENSOR",id,sensorRepo.findById(id).toString(),null,"SENSOR HAS BEEN DELETED !", LogType.INFO,1L);
     }
 
 
@@ -66,6 +73,7 @@ public class SensorService {
 
     public void changeStatus(Long id){
         Sensor sensor = getSensor(id);
+        String oldValue = String.valueOf(sensor.isEnabled());
 
         if (!sensor.isEnabled()) {
             sensor.setEnabled(true);
@@ -73,7 +81,7 @@ public class SensorService {
             sensor.setEnabled(false);
         }
         sensorRepo.save(sensor);
-
+        logService.logStateChange("SENSOR", id, oldValue,String.valueOf(sensor.isEnabled()), Source.USER,1L);
 
     }
 

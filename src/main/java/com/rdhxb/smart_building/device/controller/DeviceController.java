@@ -5,11 +5,17 @@ import com.rdhxb.smart_building.device.entity.Device;
 import com.rdhxb.smart_building.device.entity.DeviceStatus;
 import com.rdhxb.smart_building.device.service.DeviceService;
 import com.rdhxb.smart_building.device.service.DeviceStateService;
+import com.rdhxb.smart_building.eventlog.entity.Source;
+import com.rdhxb.smart_building.eventlog.service.EventLogService;
+import com.rdhxb.smart_building.user.repo.UserRepo;
+import com.rdhxb.smart_building.user.service.CustomUserDetailsService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -19,6 +25,8 @@ public class DeviceController {
 
     private final DeviceService deviceService;
     private final DeviceStateService deviceStateService;
+    private final UserRepo userRepo;
+    private final EventLogService logService;
 
 
 
@@ -56,6 +64,7 @@ public class DeviceController {
     @PatchMapping("/{id}")
     @Transactional
     public void changeStatus(@PathVariable long id, @RequestParam DeviceStatus deviceStatus){
+        logService.logStateChange("Device",id, deviceService.getDeviceById(id).getDeviceStatus().name(),deviceStatus.name(), Source.USER,1L);
         deviceStateService.changeState(id,deviceStatus,"Test");
     }
 

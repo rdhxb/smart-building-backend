@@ -29,7 +29,7 @@ public class ScheduleController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'BUILDING_MANAGER')")
-    public Schedule getSchedul(@PathVariable Long id){
+    public Schedule getSchedule(@PathVariable Long id){
         return service.getScheduleById(id);
     }
 
@@ -53,9 +53,5 @@ public class ScheduleController {
     public void deleteSchedule(@PathVariable Long id){
         service.delete(id);
     }
-
-
-
-
 
 }
