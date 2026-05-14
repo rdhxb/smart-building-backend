@@ -7,6 +7,7 @@ import com.rdhxb.smart_building.eventlog.service.EventLogService;
 import com.rdhxb.smart_building.schedule.entity.Schedule;
 import com.rdhxb.smart_building.schedule.repo.ScheduleRepo;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,7 @@ public class ScheduleService {
 
 
     public Schedule getScheduleById(Long id){
-        return scheduleRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("No Schedule with id: " + id));
+        return scheduleRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("No Schedule with ID: " + id));
     }
 
     public void addSchedule(Schedule schedule){
@@ -48,8 +49,10 @@ public class ScheduleService {
 
     }
 
+
+    @Transactional
     public void delete(Long id){
+        logService.log(EventType.DELETED, Source.USER,"SCHDULE",id,getScheduleById(id).toString(),null,"DELETE SCHEDULE !", LogType.INFO,null);
         scheduleRepo.delete(getScheduleById(id));
-        logService.log(EventType.DELETED, Source.USER,"SCHDULE",id,getScheduleById(id).toString(),null,"DELETE SCHEDULE !", LogType.INFO,1L);
     }
 }

@@ -6,11 +6,14 @@ import com.rdhxb.smart_building.eventlog.entity.EventType;
 import com.rdhxb.smart_building.eventlog.entity.LogType;
 import com.rdhxb.smart_building.eventlog.entity.Source;
 import com.rdhxb.smart_building.eventlog.repo.EventLogRepo;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 
 import java.time.Instant;
+import java.util.List;
 
 
 @Service
@@ -55,6 +58,7 @@ public class EventLogService {
                 oldValue, newValue, null, LogType.INFO, userId);
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void logAutomation(String entityType, Long entityId, String description) {
         log(EventType.AUTOMATION_TRIGGERED, Source.AUTOMATION, entityType, entityId,
                 null, null, description, LogType.INFO, null);
@@ -63,6 +67,12 @@ public class EventLogService {
     public void logAlert(String description, String entityType, Long entityId) {
         log(EventType.ALERT_RAISED, Source.SYSTEM, entityType, entityId,
                 null, null, description, LogType.WARNING, null);
+    }
+
+
+
+    public List<EventLog> getLogs(){
+        return eventLogRepo.findAll();
     }
 
 
