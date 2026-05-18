@@ -37,7 +37,7 @@ public class SensorController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'BUILDING_MENAGER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'BUILDING_MANAGER')")
     @Transactional
     public void addSensor(@RequestBody SensorRequest sensor){
         sensorService.addSensor(sensor);

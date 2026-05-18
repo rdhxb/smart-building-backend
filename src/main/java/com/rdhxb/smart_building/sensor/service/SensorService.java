@@ -54,14 +54,14 @@ public class SensorService {
                 false
         );
         sensorRepo.save(newSensor);
-        logService.log(EventType.CREATED,Source.USER,"SENSOR", newSensor.getId(),null,newSensor.toString(),"NEW SENSOR HAS BEEN ADDED !",LogType.INFO,1L);
+        logService.log(EventType.CREATED,Source.USER,"SENSOR", newSensor.getId(),null,newSensor.toString(),"NEW SENSOR HAS BEEN ADDED !",LogType.INFO,null);
     }
 
     @Transactional
     public void deleteSensor(long id){
+        logService.log(EventType.DELETED,Source.USER,"SENSOR",id,sensorRepo.findById(id).toString(),null,"SENSOR HAS BEEN DELETED !", LogType.INFO,null);
         sensorReadingRepo.detachFromSensor(id);
         sensorRepo.deleteById(id);
-        logService.log(EventType.DELETED,Source.USER,"SEENSOR",id,sensorRepo.findById(id).toString(),null,"SENSOR HAS BEEN DELETED !", LogType.INFO,1L);
     }
 
 
@@ -81,7 +81,7 @@ public class SensorService {
             sensor.setEnabled(false);
         }
         sensorRepo.save(sensor);
-        logService.logStateChange("SENSOR", id, oldValue,String.valueOf(sensor.isEnabled()), Source.USER,1L);
+        logService.logStateChange("SENSOR", id, oldValue,String.valueOf(sensor.isEnabled()), Source.USER,null);
 
     }
 

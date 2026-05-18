@@ -12,7 +12,6 @@ import com.rdhxb.smart_building.schedule.repo.ScheduleRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.scheduling.support.CronExpression;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,7 +40,7 @@ public class ScheduleExecutor {
             for (Device device: devicesList){
                 String oldValue = String.valueOf(device.getDeviceStatus());
                 device.setDeviceStatus(schedule.getTargetStatus());
-                logService.log(EventType.SCHEDULE_EXECUTED, Source.SCHEDULE, "DEVICE", device.getId(),oldValue,String.valueOf(device.getDeviceStatus()),"STAATE CHANGED USING SCHEDULE !", LogType.INFO,1L);
+                logService.log(EventType.SCHEDULE_EXECUTED, Source.SCHEDULE, "DEVICE", device.getId(),oldValue,String.valueOf(device.getDeviceStatus()),"STATE CHANGED USING SCHEDULE !", LogType.INFO,null);
             }
             deviceRepo.saveAll(devicesList);
         }

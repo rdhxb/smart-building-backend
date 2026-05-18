@@ -39,7 +39,7 @@ public class RoomController {
         roomService.addRoom(room);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN')")
     @Transactional
     public void deleteRoom(@PathVariable long id){

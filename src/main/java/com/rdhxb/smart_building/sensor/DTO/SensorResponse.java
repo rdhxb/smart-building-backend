@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 @NoArgsConstructor
 public class SensorResponse {
     private String name;
-    @Enumerated
     private SensorType type;
     private Room room;
     private String unit;

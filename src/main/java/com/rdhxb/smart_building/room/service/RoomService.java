@@ -59,13 +59,13 @@ public class RoomService {
                 room.getAreaInSquareM()
         );
         roomRepo.save(newRoom);
-        logService.log(EventType.CREATED,Source.USER,"ROOM", newRoom.getId(), null,newRoom.toString(),"New room ADDED !", LogType.INFO,1L);
+        logService.log(EventType.CREATED,Source.USER,"ROOM", newRoom.getId(), null,newRoom.toString(),"New room ADDED !", LogType.INFO,null);
     }
     
 //    delete room 
     public void deleteRoom(long id){
         Room room = roomRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("No room with id: " + id));
-        logService.log(EventType.DELETED, Source.USER,"Room",id,room.toString(),null,"Deleting room", LogType.INFO,1L);
+        logService.log(EventType.DELETED, Source.USER,"Room",id,room.toString(),null,"Deleting room", LogType.INFO,null);
         roomRepo.delete(room);
     }
 

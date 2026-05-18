@@ -4,7 +4,7 @@ import com.rdhxb.smart_building.automation.entity.AutomationRule;
 import com.rdhxb.smart_building.sensor.entity.SensorReading;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
+
 
 @Component
 public class RuleEvaluator {
@@ -15,6 +15,7 @@ public class RuleEvaluator {
         if (!rule.isEnabled()){
             return false;
         }
+        if (latestReading.getValue() == null) return false;
         double value = latestReading.getValue();
 
         return switch (rule.getOperator()) {

@@ -57,7 +57,7 @@ public class DeviceService {
                 " Name :" + device1.getName() +
                         " DeviceType: " + device1.getDeviceType() +
                         " Room: " + device1.getRoom() +
-                        " Properties :" + device1.getProperties(),"Adding new Device",LogType.INFO,1L);
+                        " Properties :" + device1.getProperties(),"Adding new Device",LogType.INFO,null);
     }
 
     @Transactional
@@ -82,7 +82,7 @@ public class DeviceService {
                 null,
                 description,
                 LogType.INFO,
-                1L
+                null
         );
     }
 

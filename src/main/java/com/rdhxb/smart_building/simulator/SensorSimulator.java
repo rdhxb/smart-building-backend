@@ -7,12 +7,12 @@ import com.rdhxb.smart_building.sensor.entity.SensorReading;
 import com.rdhxb.smart_building.sensor.repo.SensorReadingRepo;
 import com.rdhxb.smart_building.sensor.repo.SensorRepo;
 
-import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class SensorSimulator {
 
     @Scheduled(fixedDelayString = "${app.simulator.interval-ms:5000}")
     @Transactional
-    public void Simulation(){
+    public void simulation(){
         List<Sensor> sensors =  sensorRepo.findAllByEnabledTrue();
         ArrayList<SensorReading> readings = new ArrayList<>();
         if (sensors.isEmpty()) {

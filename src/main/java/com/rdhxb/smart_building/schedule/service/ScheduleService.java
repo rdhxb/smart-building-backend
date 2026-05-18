@@ -37,7 +37,7 @@ public class ScheduleService {
 
     public void addSchedule(Schedule schedule){
         scheduleRepo.save(schedule);
-        logService.log(EventType.CREATED,Source.USER,"SCHEDULE",schedule.getId(),null,schedule.toString(),"ADD NEW SHCEDULE !",LogType.INFO,1L);
+        logService.log(EventType.CREATED,Source.USER,"SCHEDULE",schedule.getId(),null,schedule.toString(),"ADD NEW SHCEDULE !",LogType.INFO,null);
     }
 
     public void turnOnOff(Long id){
@@ -45,7 +45,7 @@ public class ScheduleService {
         String oldValue = String.valueOf(schedule.isEnabled());
         schedule.setEnabled(schedule.isEnabled() ? false: true);
         scheduleRepo.save(schedule);
-        logService.logStateChange("SCHEDULE",id,oldValue,String.valueOf(schedule.isEnabled()),Source.USER,1L);
+        logService.logStateChange("SCHEDULE",id,oldValue,String.valueOf(schedule.isEnabled()),Source.USER,null);
 
     }
 

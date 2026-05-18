@@ -62,10 +62,11 @@ public class DeviceController {
 
 
     @PatchMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','BUILDING_MANAGER')")
     @Transactional
     public void changeStatus(@PathVariable long id, @RequestParam DeviceStatus deviceStatus){
-        logService.logStateChange("Device",id, deviceService.getDeviceById(id).getDeviceStatus().name(),deviceStatus.name(), Source.USER,1L);
-        deviceStateService.changeState(id,deviceStatus,"Test");
+        logService.logStateChange("Device",id, deviceService.getDeviceById(id).getDeviceStatus().name(),deviceStatus.name(), Source.USER,null);
+        deviceStateService.changeState(id,deviceStatus,"Manual change by user");
     }
 
 

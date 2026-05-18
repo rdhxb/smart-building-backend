@@ -8,9 +8,10 @@ import com.rdhxb.smart_building.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
+@EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "automation_rules")
 @NoArgsConstructor
@@ -39,8 +40,7 @@ public class AutomationRule extends AuditingEntity {
     @JoinColumn(name = "target_device_id")
     private Device targetDevice;
 
-//    @Enumerated(EnumType.STRING)
-//    private ActionType actionType;
+
     @Enumerated(EnumType.STRING)
     private DeviceStatus targetStatus;
 

@@ -4,7 +4,6 @@ import com.rdhxb.smart_building.automation.DTO.RuleRequest;
 import com.rdhxb.smart_building.automation.entity.AutomationRule;
 import com.rdhxb.smart_building.automation.service.AutomationService;
 import jakarta.transaction.Transactional;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -40,11 +39,10 @@ public class AutomationController {
     @Transactional
     @PreAuthorize("hasAnyRole('ADMIN','BUILDING_MANAGER')")
     public void toggleOffOn(@PathVariable Long id){
-        automationService.offon(id);
+        automationService.toggleEnabled(id);
     }
 
 
-//    prob same problem with related tabels (to fix if bug will occur)
     @DeleteMapping("/{id}")
     @Transactional
     @PreAuthorize("hasAnyRole('ADMIN','BUILDING_MANAGER')")

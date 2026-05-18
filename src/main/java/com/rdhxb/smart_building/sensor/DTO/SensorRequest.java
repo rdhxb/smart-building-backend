@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SensorRequest {
     private String name;
-    @Enumerated
     private SensorType type;
     private Long roomId;
     private String deviceName;

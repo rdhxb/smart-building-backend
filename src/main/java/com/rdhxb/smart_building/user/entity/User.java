@@ -1,14 +1,13 @@
 package com.rdhxb.smart_building.user.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rdhxb.smart_building.common.AuditingEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.jspecify.annotations.Nullable;
 
-import java.time.Instant;
 
 @Entity
 @AllArgsConstructor
@@ -22,6 +21,7 @@ public class User extends AuditingEntity {
     private Long id;
     @Column(unique = true)
     private String username;
+    @JsonIgnore
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;

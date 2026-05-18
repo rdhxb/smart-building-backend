@@ -51,7 +51,7 @@ public class AutomationService {
         logService.log(EventType.CREATED,Source.USER,"AUTOMATION",r.getId(),null,r.toString(),"ADD NEW AUTOMATION RULE",LogType.INFO,r.getCreatedBy().getId());
     }
 
-    public void offon(Long id){
+    public void toggleEnabled(Long id){
         AutomationRule rule = getRule(id);
         String oldValue = String.valueOf(rule.isEnabled());
 
@@ -66,8 +66,8 @@ public class AutomationService {
     }
 
     public void delete(Long id){
+        logService.log(EventType.DELETED, Source.USER,"AUTOMATION", id,ruleRepository.findById(id).toString(),null,"AUTOMATION RULE HAS BEEN DELETED !", LogType.INFO,null);
         ruleRepository.delete(getRule(id));
-        logService.log(EventType.DELETED, Source.USER,"AUTOMATION", id,ruleRepository.findById(id).toString(),null,"AUTOMATION RULE HAS BEEN DELETED !", LogType.INFO,1L);
     }
 
 

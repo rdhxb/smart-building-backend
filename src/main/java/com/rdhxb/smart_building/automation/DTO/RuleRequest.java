@@ -16,7 +16,6 @@ public class RuleRequest {
     private Operator operator;
     private Double threshold;
     private Long targetDeviceId;
-//    private ActionType actionType;
     private DeviceStatus targetStatus;
     private String actionPayload;
     private Long userId;

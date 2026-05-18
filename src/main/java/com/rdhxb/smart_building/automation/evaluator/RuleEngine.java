@@ -6,6 +6,7 @@ import com.rdhxb.smart_building.device.service.DeviceStateService;
 import com.rdhxb.smart_building.event.SensorReadingCreatedEvent;
 import com.rdhxb.smart_building.eventlog.service.EventLogService;
 import com.rdhxb.smart_building.sensor.entity.SensorReading;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -36,10 +37,10 @@ public class RuleEngine {
     private final Map<Long, Instant> lastFiredAt = new ConcurrentHashMap<>();
 
 
-//    @PostConstruct
-//    public void initialLoad() {
-//        refreshRules();
-//    }
+    @PostConstruct
+    public void initialLoad() {
+        refreshRules();
+    }
 
 
     @Scheduled(fixedDelay = 30_000)

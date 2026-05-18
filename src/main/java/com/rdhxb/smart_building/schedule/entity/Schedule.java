@@ -1,18 +1,17 @@
 package com.rdhxb.smart_building.schedule.entity;
 
 import com.rdhxb.smart_building.common.AuditingEntity;
-import com.rdhxb.smart_building.device.entity.Device;
 import com.rdhxb.smart_building.device.entity.DeviceStatus;
 import com.rdhxb.smart_building.device.entity.DeviceType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.scheduling.support.CronExpression;
 
-import java.time.LocalDateTime;
-import java.util.Date;
 
+@EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "schedules")
 @Data
@@ -30,6 +29,7 @@ public class Schedule extends AuditingEntity {
     private @Enumerated DeviceStatus targetStatus;
     private @Enumerated TargetType targetType;
 
+    @Enumerated(EnumType.STRING)
     private DeviceType deviceType;
 
     private Long targetId;

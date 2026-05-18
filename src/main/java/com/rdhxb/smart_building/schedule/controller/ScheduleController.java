@@ -3,6 +3,7 @@ package com.rdhxb.smart_building.schedule.controller;
 import com.rdhxb.smart_building.schedule.entity.Schedule;
 import com.rdhxb.smart_building.schedule.service.ScheduleService;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +37,7 @@ public class ScheduleController {
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'BUILDING_MANAGER')")
     @Transactional
-    public void addSchedule(@RequestBody Schedule schedule){
+    public void addSchedule(@Valid @RequestBody Schedule schedule){
         service.addSchedule(schedule);
     }
 
